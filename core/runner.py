@@ -15,5 +15,16 @@ class CastingRadar:
 
         print("Inicializando base de datos...")
         self.db.initialize()
+        self.db.add_casting(
+            titulo="Casting de prueba",
+            empresa="OpenAI Producciones",
+            ciudad="Madrid",
+            tipo="Publicidad",
+            fuente="Prueba"
+        )
 
+        print("\nCastings almacenados:\n")
+
+        for casting in self.db.get_castings():
+            print(casting)
         print("Sistema iniciado correctamente.")
