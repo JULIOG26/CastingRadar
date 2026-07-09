@@ -1,4 +1,5 @@
 from config.config import VERSION
+from core.casting import Casting
 from database.database import Database
 
 
@@ -15,7 +16,8 @@ class CastingRadar:
 
         print("Inicializando base de datos...")
         self.db.initialize()
-        self.db.add_casting(
+
+        casting = Casting(
             titulo="Casting de prueba",
             empresa="OpenAI Producciones",
             ciudad="Madrid",
@@ -23,8 +25,11 @@ class CastingRadar:
             fuente="Prueba"
         )
 
+        self.db.add(casting)
+
         print("\nCastings almacenados:\n")
 
         for casting in self.db.get_castings():
             print(casting)
+
         print("Sistema iniciado correctamente.")
