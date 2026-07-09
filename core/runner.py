@@ -1,6 +1,6 @@
 from config.config import VERSION
-from core.casting import Casting
 from database.database import Database
+from scrapers.test_scraper import TestScraper
 
 
 class CastingRadar:
@@ -17,19 +17,17 @@ class CastingRadar:
         print("Inicializando base de datos...")
         self.db.initialize()
 
-        casting = Casting(
-            titulo="Casting de prueba",
-            empresa="OpenAI Producciones",
-            ciudad="Madrid",
-            tipo="Publicidad",
-            fuente="Prueba"
-        )
+        scraper = TestScraper()
+        castings = scraper.scrape()
 
-        self.db.add(casting)
+        print(f"\nSe han encontrado {len(castings)} castings.\n")
 
-        print("\nCastings almacenados:\n")
+        for casting in castings:
+            self.db.add(casting)
+
+        print("Castings almacenados:\n")
 
         for casting in self.db.get_castings():
             print(casting)
 
-        print("Sistema iniciado correctamente.")
+        print("\nSistema iniciado correctamente.")
