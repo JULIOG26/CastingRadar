@@ -17,26 +17,30 @@ class Database:
         self.cursor.execute(CASTINGS_TABLE)
         self.connection.commit()
 
-    def add_casting(
-        self,
-        titulo,
-        empresa,
-        contacto="",
-        email="",
-        telefono="",
-        ciudad="",
-        pais="",
-        tipo="",
-        perfil="",
-        descripcion="",
-        fecha_publicacion="",
-        fecha_limite="",
-        url="",
-        fuente="",
-        estado="Nuevo",
-        fecha_importacion=""
-    ):
-        self.cursor.execute("""
+    def exists(self, casting: Casting):
+        self.cursor.execute(
+            """
+            SELECT id
+            FROM castings
+            WHERE titulo = ?
+              AND empresa = ?
+              AND fuente = ?
+            """,
+            (
+                casting.titulo,
+                casting.empresa,
+                casting.fuente,
+            ),
+        )
+
+        return self.cursor.fetchone() is not None
+
+    def add(self, casting: Casting):
+        if self.exists(casting):
+            return False
+
+        self.cursor.execute(
+            """
             INSERT INTO castings (
                 titulo,
                 empresa,
@@ -56,46 +60,29 @@ class Database:
                 fecha_importacion
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            titulo,
-            empresa,
-            contacto,
-            email,
-            telefono,
-            ciudad,
-            pais,
-            tipo,
-            perfil,
-            descripcion,
-            fecha_publicacion,
-            fecha_limite,
-            url,
-            fuente,
-            estado,
-            fecha_importacion
-        ))
+            """,
+            (
+                casting.titulo,
+                casting.empresa,
+                casting.contacto,
+                casting.email,
+                casting.telefono,
+                casting.ciudad,
+                casting.pais,
+                casting.tipo,
+                casting.perfil,
+                casting.descripcion,
+                casting.fecha_publicacion,
+                casting.fecha_limite,
+                casting.url,
+                casting.fuente,
+                casting.estado,
+                casting.fecha_importacion,
+            ),
+        )
 
         self.connection.commit()
-
-    def add(self, casting: Casting):
-        self.add_casting(
-            titulo=casting.titulo,
-            empresa=casting.empresa,
-            contacto=casting.contacto,
-            email=casting.email,
-            telefono=casting.telefono,
-            ciudad=casting.ciudad,
-            pais=casting.pais,
-            tipo=casting.tipo,
-            perfil=casting.perfil,
-            descripcion=casting.descripcion,
-            fecha_publicacion=casting.fecha_publicacion,
-            fecha_limite=casting.fecha_limite,
-            url=casting.url,
-            fuente=casting.fuente,
-            estado=casting.estado,
-            fecha_importacion=casting.fecha_importacion,
-        )
+        return True
 
     def get_castings(self):
         self.cursor.execute("SELECT * FROM castings")
