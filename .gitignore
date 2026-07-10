@@ -10,6 +10,16 @@ venv/
 # Base de datos
 *.db
 
+# Exportaciones
+exports/
+*.xlsx
+
+# Archivos temporales de LibreOffice
+.~lock*
+
+# Archivos de pruebas
+pagina.html
+
 # Logs
 logs/
 *.log

@@ -1,6 +1,7 @@
 from config.config import VERSION
 from database.database import Database
 from scrapers.solocastings_scraper import SoloCastingsScraper
+from core.filter import CastingFilter
 from export.excel import ExcelExporter
 
 
@@ -18,20 +19,30 @@ class CastingRadar:
         print("Inicializando base de datos...")
         self.db.initialize()
 
+        # Obtener castings
         scraper = SoloCastingsScraper()
         castings = scraper.scrape()
 
-        print(f"\nSe han encontrado {len(castings)} castings.\n")
+        print(f"\nSe han encontrado {len(castings)} castings.")
 
+        # Aplicar filtro
+        filtro = CastingFilter()
+        castings = filtro.filter(castings)
+
+        print(f"Después del filtro quedan {len(castings)} castings.\n")
+
+        # Guardar en la base de datos
         for casting in castings:
             self.db.add(casting)
 
+        # Exportar a Excel
         exporter = ExcelExporter()
         exporter.export(castings)
 
-        print("Castings almacenados:\n")
+        # Mostrar los castings seleccionados
+        print("Castings seleccionados:\n")
 
-        for casting in self.db.get_castings():
-            print(casting)
+        for casting in castings:
+            print(f"- {casting.titulo}")
 
         print("\nSistema iniciado correctamente.")
