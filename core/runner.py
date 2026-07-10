@@ -1,6 +1,7 @@
 from config.config import VERSION
 from database.database import Database
-from scrapers.test_scraper import TestScraper
+from scrapers.solocastings_scraper import SoloCastingsScraper
+from export.excel import ExcelExporter
 
 
 class CastingRadar:
@@ -17,13 +18,16 @@ class CastingRadar:
         print("Inicializando base de datos...")
         self.db.initialize()
 
-        scraper = TestScraper()
+        scraper = SoloCastingsScraper()
         castings = scraper.scrape()
 
         print(f"\nSe han encontrado {len(castings)} castings.\n")
 
         for casting in castings:
             self.db.add(casting)
+
+        exporter = ExcelExporter()
+        exporter.export(castings)
 
         print("Castings almacenados:\n")
 
