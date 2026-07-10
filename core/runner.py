@@ -1,16 +1,18 @@
 from config.config import VERSION
 from database.database import Database
 from scrapers.solocastings_scraper import SoloCastingsScraper
-from core.filter import CastingFilter
 from export.excel import ExcelExporter
+from core.filter import CastingFilter
 
 
 class CastingRadar:
+
     def __init__(self):
         self.version = VERSION
         self.db = Database()
 
     def run(self):
+
         print("=" * 50)
         print("CastingRadar")
         print(f"Versión: {self.version}")
@@ -19,13 +21,20 @@ class CastingRadar:
         print("Inicializando base de datos...")
         self.db.initialize()
 
-        # Obtener castings
-        scraper = SoloCastingsScraper()
-        castings = scraper.scrape()
+        # Lista de scrapers
+        scrapers = [
+            SoloCastingsScraper(),NuevaFuenteScraper(),
+        ]
+
+        castings = []
+
+        # Ejecutar todos los scrapers
+        for scraper in scrapers:
+            castings.extend(scraper.scrape())
 
         print(f"\nSe han encontrado {len(castings)} castings.")
 
-        # Aplicar filtro
+        # Filtrar resultados
         filtro = CastingFilter()
         castings = filtro.filter(castings)
 
@@ -39,8 +48,9 @@ class CastingRadar:
         exporter = ExcelExporter()
         exporter.export(castings)
 
-        # Mostrar los castings seleccionados
-        print("Castings seleccionados:\n")
+        print("\nExcel exportado: exports/castings.xlsx")
+
+        print("\nCastings seleccionados:\n")
 
         for casting in castings:
             print(f"- {casting.titulo}")
