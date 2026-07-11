@@ -3,7 +3,7 @@ from database.database import Database
 from scrapers.solocastings_scraper import SoloCastingsScraper
 from export.excel import ExcelExporter
 from core.filter import CastingFilter
-
+from scrapers.clandestino_scraper import ClandestinoScraper
 
 class CastingRadar:
 
@@ -23,7 +23,8 @@ class CastingRadar:
 
         # Lista de scrapers
         scrapers = [
-            SoloCastingsScraper(),NuevaFuenteScraper(),
+            SoloCastingsScraper(),
+            ClandestinoScraper(),
         ]
 
         castings = []
@@ -53,6 +54,6 @@ class CastingRadar:
         print("\nCastings seleccionados:\n")
 
         for casting in castings:
-            print(f"- {casting.titulo}")
+            print(f"[{casting.fuente}] {casting.titulo}")
 
         print("\nSistema iniciado correctamente.")

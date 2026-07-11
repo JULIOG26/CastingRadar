@@ -7,6 +7,7 @@ from core.casting import Casting
 
 
 class Database:
+
     def __init__(self):
         Path(DATABASE_FILE).parent.mkdir(parents=True, exist_ok=True)
 
@@ -18,24 +19,36 @@ class Database:
         self.connection.commit()
 
     def exists(self, casting: Casting):
+
+        # Si hay URL, es el mejor identificador
+        if casting.url:
+
+            self.cursor.execute(
+                """
+                SELECT id
+                FROM castings
+                WHERE url = ?
+                """,
+                (casting.url,),
+            )
+
+            if self.cursor.fetchone():
+                return True
+
+        # Si no hay URL, usar el título
         self.cursor.execute(
             """
             SELECT id
             FROM castings
             WHERE titulo = ?
-              AND empresa = ?
-              AND fuente = ?
             """,
-            (
-                casting.titulo,
-                casting.empresa,
-                casting.fuente,
-            ),
+            (casting.titulo,),
         )
 
         return self.cursor.fetchone() is not None
 
     def add(self, casting: Casting):
+
         if self.exists(casting):
             return False
 

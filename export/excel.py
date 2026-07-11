@@ -36,4 +36,4 @@ class ExcelExporter:
 
         wb.save(filename)
 
-        print(f"\nExcel exportado: {filename}")
+        
