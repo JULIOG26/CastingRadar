@@ -103,6 +103,7 @@ class SoloCastingsScraper:
                     print(f"Error leyendo {url}: {e}")
                     continue
 
+                
                 casting = Casting(
                     titulo=titulo,
                     empresa=empresa,
@@ -111,7 +112,7 @@ class SoloCastingsScraper:
                     descripcion=descripcion,
                     fecha_publicacion=fecha,
                     url=url,
-                    fuente="SoloCastings"
+                    fuente="SoloCastings",
                 )
 
                 castings.append(casting)

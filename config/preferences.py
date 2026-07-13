@@ -1,23 +1,47 @@
-KEYWORDS_POSITIVE = [
+PROFILE_POSITIVE = [
     "actor",
+    "actriz",
     "hombre",
     "masculino",
+]
+
+PROFILE_NEGATIVE = [
+    "mujer",
+    "femenino",
+    "niño",
+    "niña",
+    "bebé",
+    "infantil",
+    "menor",
+    "chico",
+    "chica",
+    "joven",
+    "adolescente",
+]
+
+AGE_POSITIVE = [
     "senior",
-    "55",
-    "60",
-    "65",
-    "70",
-    "75",
-    "90",
+    "maduro",
     "padre",
     "abuelo",
 ]
 
-KEYWORDS_NEGATIVE = [
-    "niño",
-    "niña",
-    "bebé",
-    "embarazada",
-    "infantil",
-    "menor",
+PRODUCTION_POSITIVE = [
+    "publicidad",
+    "spot",
+    "campaña",
+    "serie",
+    "largometraje",
+    "televisión",
+    "tv",
+    "documental",
+]
+
+LOCATION_POSITIVE = [
+    "madrid",
+    "nacional",
+]
+
+NEGATIVE = [
+    "no remunerado",
 ]

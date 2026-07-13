@@ -1,13 +1,19 @@
 from config.config import VERSION
+
 from database.database import Database
+
 from scrapers.solocastings_scraper import SoloCastingsScraper
-from export.excel import ExcelExporter
-from core.filter import CastingFilter
 from scrapers.clandestino_scraper import ClandestinoScraper
+
+from core.filter import CastingFilter
+
+from export.excel import ExcelExporter
+
 
 class CastingRadar:
 
     def __init__(self):
+
         self.version = VERSION
         self.db = Database()
 
@@ -19,41 +25,59 @@ class CastingRadar:
         print("=" * 50)
 
         print("Inicializando base de datos...")
+
         self.db.initialize()
 
-        # Lista de scrapers
         scrapers = [
+
             SoloCastingsScraper(),
+
             ClandestinoScraper(),
+
         ]
 
         castings = []
 
-        # Ejecutar todos los scrapers
         for scraper in scrapers:
-            castings.extend(scraper.scrape())
 
-        print(f"\nSe han encontrado {len(castings)} castings.")
+            print(f"Ejecutando {scraper.__class__.__name__}...")
 
-        # Filtrar resultados
+            try:
+
+                castings.extend(scraper.scrape())
+
+            except Exception as e:
+
+                print(f"ERROR: {e}")
+
+        print(f"\nCastings encontrados: {len(castings)}")
+
         filtro = CastingFilter()
+
         castings = filtro.filter(castings)
 
-        print(f"Después del filtro quedan {len(castings)} castings.\n")
+        print(f"Castings seleccionados: {len(castings)}")
 
-        # Guardar en la base de datos
         for casting in castings:
+
             self.db.add(casting)
 
-        # Exportar a Excel
         exporter = ExcelExporter()
-        exporter.export(castings)
 
-        print("\nExcel exportado: exports/castings.xlsx")
+        fichero = exporter.export(castings)
 
-        print("\nCastings seleccionados:\n")
+        print(f"\nExcel generado:\n{fichero}")
+
+        print("\nRanking:\n")
 
         for casting in castings:
-            print(f"[{casting.fuente}] {casting.titulo}")
 
-        print("\nSistema iniciado correctamente.")
+            print(
+
+                f"{casting.puntuacion:3d}  "
+
+                f"{casting.titulo}"
+
+            )
+
+        print("\nProceso finalizado correctamente.")
