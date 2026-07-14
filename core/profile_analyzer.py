@@ -139,10 +139,15 @@ class ProfileAnalyzer:
 
             if palabra in texto:
                 resultado["produccion"] = "publicidad"
-                if resultado["produccion"] is None:
                 break
 
         if resultado["produccion"] is None:
+
+            for palabra in FICCION:
+
+                if palabra in texto:
+                    resultado["produccion"] = palabra
+                    break
 
             for palabra in FICCION:
 
