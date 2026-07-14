@@ -20,11 +20,10 @@ class ExcelExporter:
         ws.title = "CastingRadar"
 
         cabeceras = [
-
-    "Puntos",
-    "Publicación",
-    "Límite",
-    "Interés",
+            "Puntos",
+            "Publicación",
+            "Límite",
+            "Interés",
             "Papel",
             "Producción",
             "Remunerado",
@@ -38,6 +37,13 @@ class ExcelExporter:
             "Fuente",
             "URL",
 
+            # Columnas de trabajo de Julio
+            "Decisión",
+            "Motivo",
+            "Comentarios",
+            "Revisado",
+            "Presentado",
+            "Resultado",
         ]
 
         ws.append(cabeceras)
@@ -55,36 +61,30 @@ class ExcelExporter:
                 analisis.get("edad_min") is not None
                 or analisis.get("edad_max") is not None
             ):
-
                 edad = (
-                    f'{analisis.get("edad_min","")}'
+                    f'{analisis.get("edad_min", "")}'
                     f'-'
-                    f'{analisis.get("edad_max","")}'
+                    f'{analisis.get("edad_max", "")}'
                 )
 
             puntos = casting.puntuacion
 
             if puntos >= 100:
                 interes = "★★★★★"
-
             elif puntos >= 80:
                 interes = "★★★★"
-
             elif puntos >= 60:
                 interes = "★★★"
-
             elif puntos >= 40:
                 interes = "★★"
-
             else:
                 interes = "★"
 
             ws.append([
-
-    puntos,
-    casting.fecha_publicacion,
-    casting.fecha_limite,
-    interes,
+                puntos,
+                casting.fecha_publicacion,
+                casting.fecha_limite,
+                interes,
                 analisis.get("papel", ""),
                 analisis.get("produccion", ""),
                 analisis.get("remunerado", ""),
@@ -98,6 +98,12 @@ class ExcelExporter:
                 casting.fuente,
                 casting.url,
 
+                "",   # Decisión
+                "",   # Motivo
+                "",   # Comentarios
+                "",   # Revisado
+                "",   # Presentado
+                "",   # Resultado
             ])
 
         nombre = (

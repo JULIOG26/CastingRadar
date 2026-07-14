@@ -61,6 +61,10 @@ class ProfileAnalyzer:
             r"(\d{2})\s*a\s*(\d{2})",
             r"de\s+(\d{2})\s+a\s+(\d{2})",
             r"entre\s+(\d{2})\s+y\s+(\d{2})",
+            r"(\d{2})\s*al\s*(\d{2})",
+            r"edad\s+(\d{2})\s*-\s*(\d{2})",
+            r"de\s+entre\s+(\d{2})\s+y\s+(\d{2})",
+            r"apariencia\s+de\s+(\d{2})\s+a\s+(\d{2})",
         ]
 
         for patron in patrones:
@@ -80,6 +84,11 @@ class ProfileAnalyzer:
                 r"mas\s+de\s+(\d{2})",
                 r"a\s+partir\s+de\s+(\d{2})",
                 r"(\d{2})\+",
+                r"senior",
+                r"tercera edad",
+                r"jubilados",
+                r"jubiladas",
+            
             ]
 
             for patron in patrones:
@@ -89,7 +98,7 @@ class ProfileAnalyzer:
                 if m:
                     resultado["edad_min"] = int(m.group(1))
                     break
-
+                    resultado["edad_min"] = 60
         if resultado["edad_max"] is None:
 
             patrones = [
@@ -130,6 +139,7 @@ class ProfileAnalyzer:
 
             if palabra in texto:
                 resultado["produccion"] = "publicidad"
+                if resultado["produccion"] is None:
                 break
 
         if resultado["produccion"] is None:

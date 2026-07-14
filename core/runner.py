@@ -4,7 +4,7 @@ from database.database import Database
 
 from scrapers.solocastings_scraper import SoloCastingsScraper
 from scrapers.clandestino_scraper import ClandestinoScraper
-
+from scrapers.castingcinetv_scraper import CastingCineTVScraper
 from core.filter import CastingFilter
 
 from export.excel import ExcelExporter
@@ -30,11 +30,15 @@ class CastingRadar:
 
         scrapers = [
 
-            SoloCastingsScraper(),
+    SoloCastingsScraper(),
 
-            ClandestinoScraper(),
+    ClandestinoScraper(),
 
-        ]
+    CastingCineTVScraper(),
+
+]
+
+    
 
         castings = []
 
