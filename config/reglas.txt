@@ -23,6 +23,12 @@
 - doble de accion
 - especialista de accion
 - stunt
+- maquillaje
+- patín
+- patinador
+- patinadora
+
+
 
 
 
@@ -69,6 +75,10 @@ PENALIZAR
 - asiatica (-35)
 - afro (-35)
 - oriental (-35)
+- modelo (-20)
+- videoclip (-20)
+- emergente (-20)
+
 
 
 
@@ -110,6 +120,11 @@ BONIFICAR
 + HBO (+10)
 + concurso tv (+15)
 + familia (+15)
++ buyouts (+20)
++ seguridad social (+10)
++ elegante (+15)
+
+
 
 
 
