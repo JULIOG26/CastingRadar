@@ -2,7 +2,7 @@ import requests
 
 from core.casting import Casting
 
-
+from core.utils.date_parser import parse_date
 class CastingCineTVScraper:
 
     URL = "https://castingscinetv.com/feeds/posts/default/-/Espa%C3%B1a?alt=json&max-results=30"
@@ -38,7 +38,7 @@ class CastingCineTVScraper:
 
             casting = Casting(
                 titulo=titulo,
-                fecha_publicacion=fecha,
+                
                 url=url,
                 fuente="CastingCineTV",
             )

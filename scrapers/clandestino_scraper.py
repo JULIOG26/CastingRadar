@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from core.casting import Casting
-
+from core.utils.date_parser import parse_date
 
 class ClandestinoScraper:
 
@@ -91,7 +91,8 @@ class ClandestinoScraper:
                     tipo=tipo,
                     perfil=perfil,
                     descripcion=descripcion,
-                    fecha_publicacion=fecha,
+                    
+                    fecha_publicacion=parse_date(fecha),
                     url=url,
                     fuente="Clandestino"
                 )
