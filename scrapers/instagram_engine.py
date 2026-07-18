@@ -1,39 +1,34 @@
-from pathlib import Path
-import csv
-
 from scrapers.browser import Browser
 from scrapers.post_extractor import PostExtractor
+from scrapers.account_loader import AccountLoader
 
 
 class InstagramEngine:
 
     def scrape(self):
 
-        fichero = Path("data/instagram_accounts.csv")
-
-        with open(fichero, newline="", encoding="utf-8") as f:
-            cuentas = list(csv.DictReader(f))
-
-        navegador = Browser()
-
-        navegador.start()
+        cuentas = AccountLoader().load()
 
         print(f"{len(cuentas)} cuentas cargadas")
 
-        usuario = cuentas[0]["usuario"]
+        browser = Browser()
 
-        print(f"Abriendo {usuario}")
+        browser.start()
 
-        navegador.page.goto(
-            f"https://www.instagram.com/{usuario}/"
-        )
+        extractor = PostExtractor(browser)
 
-        extractor = PostExtractor(navegador.page)
+        try:
 
-        extractor.get_posts()
+            for cuenta in cuentas[:1]:
 
-        input("Pulsa ENTER para cerrar...")
+                print(f"\n===== {cuenta['usuario']} =====")
 
-        navegador.stop()
+                posts = extractor.extract(cuenta["usuario"])
+
+                print(f"Posts encontrados: {len(posts)}")
+
+        finally:
+
+            browser.stop()
 
         return []

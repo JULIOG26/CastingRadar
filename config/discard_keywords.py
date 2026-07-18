@@ -67,10 +67,7 @@ DISCARD_KEYWORDS = [
     "influencer",
     "tiktok",
     "reels",
-    "instagram",
-    "rrss",
-    "redes sociales",
-
+    
     # --------------------------------------
     # Artes escénicas
     # --------------------------------------
@@ -121,4 +118,37 @@ DISCARD_KEYWORDS = [
     "asiático",
     "asiática",
     "afro",
+    # --------------------------------------
+    # Publicaciones que NO son castings
+    # --------------------------------------
+
+    "casting cerrado",
+    "cast cerrado",
+    "callback",
+    "callbacks",
+    "premios",
+    "award",
+    "awards",
+    "ganador",
+    "ganadora",
+    "winner",
+    "estreno",
+    "trailer",
+    "teaser",
+    "making of",
+    "behind the scenes",
+    "backstage",
+    "new office",
+    "nueva oficina",
+    "masterclass",
+    "workshop",
+    "curso",
+    "festival",
+    "photo dump",
+    "felicidades",
+    "enhorabuena",
+    "gracias equipo",
+    "recuerdo",
+    "hace un año",
+    "aniversario",
 ]

@@ -14,22 +14,24 @@ class Browser:
 
         self.context = self.playwright.chromium.launch_persistent_context(
             user_data_dir="data/chrome_profile",
-            headless=False
+            headless=False,
         )
+
+        self.context.on("request", self.on_request)
+        self.context.on("response", self.on_response)
 
         self.page = self.context.new_page()
 
-        self.page.on(
-            "request",
-            lambda request: print("REQ:", request.method, request.url)
-        )
+    def on_request(self, request):
 
-        self.page.on(
-            "response",
-            lambda response: print("RES:", response.status, response.url)
-        )
+        print("REQ", request.method, request.url)
+
+    def on_response(self, response):
+
+        print("RES", response.status, response.url)
 
     def stop(self):
 
         self.context.close()
+
         self.playwright.stop()

@@ -9,21 +9,21 @@ POSITIVE_KEYWORDS = {
     # Publicidad
     # --------------------------------------
 
-    "publicidad": 30,
-    "spot": 30,
-    "anuncio": 25,
-    "campaña": 25,
-    "campaña nacional": 35,
+    "publicidad": 35,
+    "spot": 35,
+    "anuncio": 35,
+    "campaña": 35,
+    "campaña nacional": 40,
     "tv commercial": 35,
-    "commercial": 25,
+    "commercial": 35,
 
     # --------------------------------------
     # Derechos de imagen
     # --------------------------------------
 
-    "buyout": 30,
-    "derechos de imagen": 30,
-    "rights": 20,
+    "buyout": 40,
+    "derechos de imagen": 40,
+    "rights": 40,
 
     # --------------------------------------
     # Remuneración
@@ -79,9 +79,9 @@ POSITIVE_KEYWORDS = {
 
     "serie": 15,
     "largometraje": 15,
-    "cine": 10,
-    "ficción": 10,
-    "ficcion": 10,
+    "cine": 15,
+    "ficción": 15,
+    "ficcion": 15,
 
     # --------------------------------------
     # Ubicación
@@ -92,5 +92,18 @@ POSITIVE_KEYWORDS = {
     "san sebastián de los reyes": 30,
     "san sebastian de los reyes": 30,
     "ss de los reyes": 30,
+
+"actor secundario": 30,
+"reparto": 25,
+"featured extra": 25,
+"figuración especial": 20,
+"derechos": 40,
+"rodaje": 20,
+"netflix": 25,
+"amazon": 20,
+"movistar": 20,
+"hbo": 20,
+"disney+": 20,
+"prime video": 20,
 
 }

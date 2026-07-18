@@ -2,13 +2,14 @@ from config.config import VERSION
 
 from database.database import Database
 
-from scrapers.instagram_scraper import InstagramScraper
-from scrapers.solocastings_scraper import SoloCastingsScraper
-from scrapers.clandestino_scraper import ClandestinoScraper
-from scrapers.castingcinetv_scraper import CastingCineTVScraper
 from core.filter import CastingFilter
 
 from export.excel import ExcelExporter
+
+from scrapers.solocastings_scraper import SoloCastingsScraper
+from scrapers.clandestino_scraper import ClandestinoScraper
+from scrapers.castingcinetv_scraper import CastingCineTVScraper
+from scrapers.instagram_v2.engine import InstagramEngineV2
 
 
 class CastingRadar:
@@ -29,11 +30,14 @@ class CastingRadar:
 
         self.db.initialize()
 
-        
         scrapers = [
+
             SoloCastingsScraper(),
+
             ClandestinoScraper(),
-            CastingCineTVScraper(),
+
+            CastingCineTVScraper()
+
         ]
 
         castings = []
@@ -43,20 +47,29 @@ class CastingRadar:
             print(f"Ejecutando {scraper.__class__.__name__}...")
 
             try:
+
                 castings.extend(scraper.scrape())
 
             except Exception as e:
+
                 print(f"ERROR: {e}")
 
-        print("Ejecutando InstagramScraper...")
+        print("Ejecutando Instagram V2...")
 
-        instagram = InstagramScraper()
-        cuentas = instagram.scrape()
+        try:
 
-        print(f"Cuentas de Instagram cargadas: {len(cuentas)}")
+            instagram = InstagramEngineV2()
+
+            castings.extend(instagram.scrape())
+
+        except Exception as e:
+
+            print(f"ERROR Instagram: {e}")
 
         print(f"\nCastings encontrados: {len(castings)}")
+
         filtro = CastingFilter()
+
         castings = filtro.filter(castings)
 
         print(f"Castings seleccionados: {len(castings)}")
@@ -77,9 +90,7 @@ class CastingRadar:
 
             print(
 
-                f"{casting.puntuacion:3d}  "
-
-                f"{casting.titulo}"
+                f"{casting.puntuacion:3d}  {casting.titulo}"
 
             )
 

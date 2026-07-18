@@ -1,55 +1,83 @@
 from pathlib import Path
 from datetime import datetime
+import shutil
 
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font
 
 
 class ExcelExporter:
+
+    CABECERAS = [
+        "Puntos",
+        "Publicación",
+        "Límite",
+        "Interés",
+        "Papel",
+        "Producción",
+        "Remunerado",
+        "Derechos",
+        "Ubicación",
+        "Sexo",
+        "Edad",
+        "Título",
+        "Empresa",
+        "Ciudad",
+        "Fuente",
+        "URL",
+        "Decisión",
+        "Motivo",
+        "Comentarios",
+        "Revisado",
+        "Presentado",
+        "Resultado",
+    ]
 
     def __init__(self):
 
         self.export_dir = Path("exports")
         self.export_dir.mkdir(exist_ok=True)
 
+        self.backup_dir = self.export_dir / "backups"
+        self.backup_dir.mkdir(exist_ok=True)
+
     def export(self, castings):
 
-        wb = Workbook()
-        ws = wb.active
+        excel = self.export_dir / "CastingRadar.xlsx"
 
-        ws.title = "CastingRadar"
+        if excel.exists():
 
-        cabeceras = [
-            "Puntos",
-            "Publicación",
-            "Límite",
-            "Interés",
-            "Papel",
-            "Producción",
-            "Remunerado",
-            "Derechos",
-            "Ubicación",
-            "Sexo",
-            "Edad",
-            "Título",
-            "Empresa",
-            "Ciudad",
-            "Fuente",
-            "URL",
+            backup = self.backup_dir / (
+                f"CastingRadar_{datetime.now():%Y%m%d_%H%M%S}.xlsx"
+            )
 
-            # Columnas de trabajo de Julio
-            "Decisión",
-            "Motivo",
-            "Comentarios",
-            "Revisado",
-            "Presentado",
-            "Resultado",
-        ]
+            shutil.copy2(excel, backup)
 
-        ws.append(cabeceras)
+            wb = load_workbook(excel)
 
-        for cell in ws[1]:
-            cell.font = Font(bold=True)
+            ws = wb.active
+
+        else:
+
+            wb = Workbook()
+
+            ws = wb.active
+
+            ws.title = "CastingRadar"
+
+            ws.append(self.CABECERAS)
+
+            for c in ws[1]:
+                c.font = Font(bold=True)
+
+        urls = {}
+
+        for fila in range(2, ws.max_row + 1):
+
+            url = ws.cell(row=fila, column=16).value
+
+            if url:
+                urls[url] = fila
 
         for casting in castings:
 
@@ -62,9 +90,8 @@ class ExcelExporter:
                 or analisis.get("edad_max") is not None
             ):
                 edad = (
-                    f'{analisis.get("edad_min", "")}'
-                    f'-'
-                    f'{analisis.get("edad_max", "")}'
+                    f"{analisis.get('edad_min','')}-"
+                    f"{analisis.get('edad_max','')}"
                 )
 
             puntos = casting.puntuacion
@@ -80,7 +107,7 @@ class ExcelExporter:
             else:
                 interes = "★"
 
-            ws.append([
+            datos = [
                 puntos,
                 casting.fecha_publicacion,
                 casting.fecha_limite,
@@ -97,22 +124,53 @@ class ExcelExporter:
                 casting.ciudad,
                 casting.fuente,
                 casting.url,
+            ]
 
-                "",   # Decisión
-                "",   # Motivo
-                "",   # Comentarios
-                "",   # Revisado
-                "",   # Presentado
-                "",   # Resultado
-            ])
+            if casting.url in urls:
 
-        nombre = (
-            f"CastingRadar_"
-            f"{datetime.now():%Y%m%d_%H%M%S}.xlsx"
-        )
+                fila = urls[casting.url]
 
-        fichero = self.export_dir / nombre
+                for col, valor in enumerate(datos, start=1):
 
-        wb.save(fichero)
+                    ws.cell(row=fila, column=col).value = valor
 
-        return fichero
+            else:
+                ws.append(
+                    datos
+                    + [
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                    ]
+                )
+
+                urls[casting.url] = ws.max_row
+
+        for columna in ws.columns:
+
+            longitud = 0
+
+            letra = columna[0].column_letter
+
+            for celda in columna:
+
+                try:
+
+                    valor = str(celda.value)
+
+                except Exception:
+
+                    valor = ""
+
+                if len(valor) > longitud:
+
+                    longitud = len(valor)
+
+            ws.column_dimensions[letra].width = min(longitud + 2, 60)
+
+        wb.save(excel)
+
+        return excel

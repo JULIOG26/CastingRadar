@@ -79,5 +79,28 @@ PENALTY_KEYWORDS = {
 
     "voluntario": 40,
     "voluntariado": 40,
+    # --------------------------------------
+    # Publicaciones que NO son castings
+    # --------------------------------------
+
+    "new office": 80,
+    "nueva oficina": 80,
+    "premios": 80,
+    "award": 80,
+    "awards": 80,
+    "festival": 40,
+    "making of": 50,
+    "behind the scenes": 50,
+    "backstage": 50,
+    "estreno": 60,
+    "trailer": 60,
+    "teaser": 60,
+    "felicidades": 40,
+    "enhorabuena": 40,
+    "recuerdo": 30,
+    "aniversario": 30,
+    "masterclass": 70,
+    "workshop": 70,
+    "curso": 70,
 
 }
