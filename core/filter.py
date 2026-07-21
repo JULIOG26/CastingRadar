@@ -63,7 +63,7 @@ class CastingFilter:
 
     def descartar(self, texto):
 
-        basura = [
+            basura = [
 
             "masterclass",
             "workshop",
@@ -93,19 +93,17 @@ class CastingFilter:
 
         ]
 
-        return any(x in texto for x in basura)
+            return any(x in texto for x in basura)
 
     # -----------------------------------------------------
-
     def puntuar(self, texto):
 
         p = 0
 
-        # PRODUCCIÓN
+# PRODUCCIÓN
 
         if "netflix" in texto:
             p += 80
-
         if "amazon" in texto:
             p += 70
 
@@ -124,7 +122,7 @@ class CastingFilter:
         if "mediaset" in texto:
             p += 60
 
-        # TIPO
+# TIPO
 
         if "publicidad" in texto:
             p += 40
@@ -141,7 +139,7 @@ class CastingFilter:
         if "largometraje" in texto:
             p += 30
 
-        # REMUNERACIÓN
+# REMUNERACIÓN
 
         if "remunerado" in texto:
             p += 30
@@ -152,6 +150,32 @@ class CastingFilter:
         if "derechos de imagen" in texto:
             p += 25
 
+# ZONA PREFERENTE
+
+        if "alcobendas" in texto:
+            p += 45
+
+        if "san sebastián de los reyes" in texto:
+            p += 45
+
+        if "san sebastian de los reyes" in texto:
+            p += 45
+
+        if "ssrr" in texto:
+            p += 45
+
+        if "tres cantos" in texto:
+            p += 30
+
+        if "colmenar viejo" in texto:
+            p += 25
+
+        if "madrid norte" in texto:
+            p += 25
+
+        if "madrid" in texto:
+            p += 20
+
         # MADRID
 
         if "madrid" in texto:
@@ -160,21 +184,17 @@ class CastingFilter:
         if "comunidad de madrid" in texto:
             p += 20
 
-        # PAPEL
+# PAPEL
 
         if "actor principal" in texto:
             p += 40
 
-        if "actriz principal" in texto:
-            p += 40
 
         if "actor secundario" in texto:
             p += 25
 
-        if "actriz secundaria" in texto:
-            p += 25
 
-        # PENALIZACIONES
+# PENALIZACIONES
 
         if "tfg" in texto:
             p -= 120
