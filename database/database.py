@@ -98,8 +98,46 @@ class Database:
         return True
 
     def get_castings(self):
-        self.cursor.execute("SELECT * FROM castings")
-        return self.cursor.fetchall()
+
+        self.cursor.execute(
+            """
+            SELECT
+                titulo,
+                empresa,
+                ciudad,
+                descripcion,
+                fecha_publicacion,
+                fecha_limite,
+                email,
+                telefono,
+                url,
+                fuente
+            FROM castings
+            """
+        )
+
+        filas = self.cursor.fetchall()
+
+        resultado = []
+
+        for fila in filas:
+
+            resultado.append(
+                Casting(
+                    titulo=fila[0],
+                    empresa=fila[1],
+                    ciudad=fila[2],
+                    descripcion=fila[3],
+                    fecha_publicacion=fila[4],
+                    fecha_limite=fila[5],
+                    email=fila[6],
+                    telefono=fila[7],
+                    url=fila[8],
+                    fuente=fila[9],
+                )
+            )
+
+        return resultado
 
     def close(self):
         self.connection.close()

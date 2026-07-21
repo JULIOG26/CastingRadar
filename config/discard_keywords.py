@@ -79,7 +79,12 @@ DISCARD_KEYWORDS = [
     "coreografo",
     "coreografía",
     "coreografia",
+    "coreografico"
+    "coreográfico"
+    "coreografa"
+    "coreógrafa"
     "circo",
+    "circense"
     "acróbata",
     "acrobata",
     "doble de acción",
